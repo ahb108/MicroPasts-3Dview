@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html>
+
+	<!-- Andrew Bevan, 21-Apr-2014 -->
+	<!-- micropasts.org -->
+	<!-- Somw further tutorialised help from Manuel Wieser and Johannes Raida -- many thanks! -->
+
+	<head>
+		<meta charset="utf-8">
+		<title>MicroPasts 3D Viewer</title>
+		<script src="js/three.min.js"></script>
+		<script src="js/TrackballControls.js"></script>
+		<script src="js/OBJLoader.js"></script>
+		<script src="js/Detector.js"></script>
+		<script src="js/jquery-2.1.0.min.js"></script>
+		<script src="js/jquery-ui.min.js"></script>
+		<script src="js/info.js"></script>
+
+		<link rel=stylesheet href="css/mpview.css"/>
+		<!-- inlcudes info button -->
+		<link rel=stylesheet href="css/jquery-ui.css"/>
+		<!-- v1.10.4 -->
+
+	</head>
+	<body>
+
+		<!-- Parent Canvas -->
+		<div id="my3dcontent" style="position: relative">
+			<!-- Object Information Button -->
+			<div id="infoButton">
+				class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only"
+				role="button" aria-disabled="false"
+				style="z-index: 2;
+				background-color: rgba(0, 0, 0, 0);
+				opacity: 0.9;
+				position: absolute; top: 4px; left: 4px;
+				background-position: initial initial;
+				background-repeat: initial initial;">
+				<span class="ui-button-text"><img width="32" height="32" src="images/icon-info.png"></span>
+			</div>
+
+			<div id="infoBox" title="Object Info">
+				<p>
+					This object is a Bronze Age 'palstave' (a kind of axe) and was found near Jevington, East Sussex. It is now part of the British Museum's collections (BM P1991.3-3.5).
+				</p>
+			</div>
+
+			<!-- Logo Overlay -->
+			<div id="mylogo">
+				<img width="100" src="images/mp-webgl.png">
+			</div>
+
+			<!-- Text Overlay -->
+			<div id="myothercontent">
+				<p>
+					In addition to using this viewer, you can also download the raw model (<a
+					href="examples/P1991_3-3_5_LoRes.zip">low-res mesh</a>, <a
+					href="examples/P1991_3-3_5_HiRes.zip">high-res mesh</a>, <a
+					href="examples/P1991_3-3_5_DPC.ply">dense point cloud</a>) and view it with Meshlab (<a
+					href="http://meshlab.sourceforge.net/">Desktop/Laptop</a>, <a href="https://itunes.apple.com/us/app/meshlab-for-ios/id451944013?mt=8">iOS</a>, <a href="https://play.google.com/store/apps/details?id=it.isticnr.meshlab">Android</a>). This data is licensed for general public use (<a
+					href="http://creativecommons.org/licenses/by/4.0/">CC-BY</a>).
+				</p>
+			</div>
+
+			<!-- Replacement Image -->
+			<div id="backupimage">
+				<div style="text-align:center"><img width="300" src="examples/P1991_3-3_5_snap.png">
+				</div>
+				<p>
+					Sorry, it looks as if your device does not currently support a WebGL viewer.
+				</p>
+				<p>
+					Unfortunately, mobile iOS devices do not, nor will older versions of browsers (so consider updating).
+					For Android mobile devices using Chrome or desktop/laptop computers using Safari, you may be able to enable this via your browser settings
+					(details <a
+					href="http://thenextweb.com/google/2013/01/25/google-finally-makes-it-easy-to-enable-webgl-support-in-latest-chrome-for-android-beta/">here</a> and <a
+					href="https://discussions.apple.com/thread/3300585?start=0">here</a>).
+					Otherwise you will have to content yourself with this still view of the same object.
+				</p>
+				<p>
+					You can also download the raw model (<a
+					href="examples/P1991_3-3_5_LoRes.zip">low-res mesh</a>, <a
+					href="examples/P1991_3-3_5_HiRes.zip">high-res mesh</a>, <a
+					href="examples/P1991_3-3_5_DPC.ply">dense point cloud</a>) and view it with Meshlab (<a
+					href="http://meshlab.sourceforge.net/">Desktop/Laptop</a>, <a href="https://itunes.apple.com/us/app/meshlab-for-ios/id451944013?mt=8">iOS</a>, <a href="https://play.google.com/store/apps/details?id=it.isticnr.meshlab">Android</a>). This data is licensed for general public use (<a
+					href="http://creativecommons.org/licenses/by/4.0/">CC-BY</a>).
+				</p>
+			</div>
+
+		</div>
+
+		<!-- Conditional Display depending on browser's webgl capabiltites -->
+		<script>
+			$(document).ready(function() {
+				if (Detector.webgl) {
+					document.getElementById('backupimage').style.display = 'none';
+				} else {
+					document.getElementById('myothercontent').style.display = 'none';
+				};
+			});
+
+		</script>
+
+		<!-- WebGL Main Script -->
+		<script>
+			var container;
+			var camera, scene, renderer;
+			var mouseX = 0, mouseY = 0;
+
+			var windowHalfX = window.innerWidth / 2;
+			var windowHalfY = window.innerHeight / 2;
+
+			init();
+			animate();
+
+			/*** Initialize ***/
+			function init() {
+
+				container = document.getElementById("my3dcontent");
+
+				document.body.appendChild(container);
+
+				// Adjust cameras distance and set the FOV. Last two values set the clippling plane.
+				camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.01, 10);
+				camera.position.z = 0.4;
+
+				// Set camera behaviour and sensitivity
+				controls = new THREE.TrackballControls(camera);
+				controls.rotateSpeed = 4;
+				controls.zoomSpeed = 4;
+				controls.panSpeed = 2;
+				controls.noZoom = false;
+				controls.noPan = false;
+				controls.staticMoving = true;
+				controls.dynamicDampingFactor = 0.3;
+
+				// Add scene
+				scene = new THREE.Scene();
+
+				// White light given texture has shading
+				var ambient = new THREE.AmbientLight(0xffffff);
+				scene.add(ambient);
+
+				if (Detector.webgl) {
+					/*** Texture Loading ***/
+					var manager = new THREE.LoadingManager();
+					manager.onProgress = function(item, loaded, total) {
+						console.log(item, loaded, total);
+					};
+					var texture = new THREE.Texture();
+					var loader = new THREE.ImageLoader(manager);
+
+					// Load texture
+					loader.load('examples/P1991_3-3_5_LoRes.jpg', function(image) {
+						texture.image = image;
+						texture.needsUpdate = true;
+					});
+
+					/*** OBJ Loading ***/
+					var loader = new THREE.OBJLoader(manager);
+
+					// Apply texture to mesh
+					loader.load('examples/P1991_3-3_5_LoRes.obj', function(event) {
+						var object = event;
+						object.traverse(function(child) {
+							if ( child instanceof THREE.Mesh) {
+								child.material.map = texture;
+								THREE.GeometryUtils.center(child.geometry);
+							}
+						});
+
+						// Rescale if necessary
+						object.scale = new THREE.Vector3(1, 1, 1);
+
+						// Re-position if necessary
+						object.position.y += 0.0;
+						scene.add(object);
+					});
+				}
+
+				// Check for WebGL (enable slower canvas render otherwise)
+				if (Detector.webgl) {
+					renderer = new THREE.WebGLRenderer({
+						alpha : true
+					});
+				} else {
+					renderer = new THREE.CanvasRenderer({
+						alpha : true
+					});
+				}
+
+				renderer.setSize(window.innerWidth, window.innerHeight);
+				container.appendChild(renderer.domElement);
+				container.addEventListener('resize', onWindowResize, false);
+			}
+
+			// Handle window resizing
+			function onWindowResize(event) {
+				camera.aspect = window.innerWidth / window.innerHeight;
+				camera.updateProjectionMatrix();
+				renderer.setSize(window.innerWidth, window.innerHeight);
+			}
+
+
+			window.onresize = onWindowResize;
+
+			// Render handler
+			function render() {
+				camera.lookAt(scene.position);
+				renderer.render(scene, camera);
+			}
+
+			/*** Loop ***/
+			function animate() {
+				requestAnimationFrame(animate);
+				// New camera each frame
+				controls.update();
+				render()
+			}
+		</script>
+
+	</body>
+</html>
