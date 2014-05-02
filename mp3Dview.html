@@ -7,7 +7,8 @@
 	helped by tutorials from Manuel Wieser and Johannes Raida  -->
 
 	<head>
-		<meta charset="utf-8">
+		<meta charset="utf-8" />
+		<meta name="viewport" content="initial-scale=1, width=device-width" />
 		<title>MicroPasts 3D Viewer</title>
 		<script src="js/three.min.js"></script>
 		<script src="js/TrackballControls.js"></script>
@@ -16,31 +17,20 @@
 		<script src="js/jquery-2.1.0.min.js"></script>
 		<script src="js/jquery-ui.min.js"></script>
 		<script src="js/info.js"></script>
-
-		<link rel=stylesheet href="css/mpview.css"/>
-		<!-- includes info button -->
-		<link rel=stylesheet href="css/jquery-ui.css"/>
 		<!-- v1.10.4 -->
-
+		<link rel=stylesheet href="css/jquery-ui.css" />
+		<!-- includes info button -->
+		<link rel=stylesheet href="css/mpview.css" />
 	</head>
 	<body>
-
-		<!-- Parent Canvas -->
-		<div id="my3dcontent" style="position: relative">
-
+		<!-- Main container -->
+		<div id="my3dcontent">
 			<!-- Object Information Button -->
-			<div id="infoButton">
+			<div id="infoButton"
 				class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only"
-				role="button" aria-disabled="false"
-				style="z-index: 2;
-				background-color: rgba(0, 0, 0, 0);
-				opacity: 0.9;
-				position: absolute; top: 4px; left: 4px;
-				background-position: initial initial;
-				background-repeat: initial initial;">
-				<span class="ui-button-text"><img width="32" height="32" src="images/icon-info.png"></span>
+				role="button" aria-disabled="false">
+				<span class="ui-button-text"><img alt="" width="32" height="32" src="images/icon-info.png" /></span>
 			</div>
-
 			<div id="infoBox" title="Object Info">
 				<p>
 					This object is a Bronze Age 'palstave' (a kind of axe) and was found near Jevington, East Sussex. It is now part of the British Museum's collections (BM P1991.3-3.5).
@@ -51,7 +41,7 @@
 			<div id="mylogo">
 				<img width="100" src="images/mp-webgl.png">
 			</div>
-
+			
 			<!-- Text Overlay -->
 			<div id="myothercontent">
 				<p>
@@ -66,31 +56,51 @@
 
 			<!-- Replacement Image -->
 			<div id="backupimage">
-				<div style="text-align:center"><img width="300" src="examples/P1991_3-3_5_snap.png">
+				<div id="backupimage-img-wrapper">
+					<img id="backupimage-img" alt="" src="examples/P1991_3-3_5_snap.png" />
 				</div>
-				<p>
-					Sorry, it looks as if your device does not currently support a WebGL viewer.
-				</p>
-				<p>
-					Unfortunately, mobile iOS devices do not, nor will older versions of browsers (so consider updating).
-					For Android mobile devices using Chrome or desktop/laptop computers using Safari, you may be able to enable this via your browser settings
-					(details <a
-					href="http://thenextweb.com/google/2013/01/25/google-finally-makes-it-easy-to-enable-webgl-support-in-latest-chrome-for-android-beta/">here</a> and <a
-					href="https://discussions.apple.com/thread/3300585?start=0">here</a>).
-					Otherwise you will have to content yourself with this still view of the same object.
-				</p>
-				<p>
-					You can also download the raw model (<a
-					href="examples/P1991_3-3_5_LoRes.zip">low-res mesh</a>, <a
-					href="examples/P1991_3-3_5_HiRes.zip">high-res mesh</a>, <a
-					href="examples/P1991_3-3_5_DPC.ply">dense point cloud</a>) and view it with Meshlab (<a
-					href="http://meshlab.sourceforge.net/">Desktop/Laptop</a>, <a href="https://itunes.apple.com/us/app/meshlab-for-ios/id451944013?mt=8">iOS</a>, <a href="https://play.google.com/store/apps/details?id=it.isticnr.meshlab">Android</a>). This data is licensed for general public use (<a
-					href="http://creativecommons.org/licenses/by/4.0/">CC-BY</a>).
-				</p>
+				<div id="backupimage-text-wrapper">
+					<p>
+						Sorry, it looks as if your device does not currently support a WebGL viewer.
+					</p>
+					<p>
+						Unfortunately, mobile iOS devices do not, nor will older versions of browsers (so consider updating).
+						For Android mobile devices using Chrome or desktop/laptop computers using Safari, you may be able to enable this via your browser settings
+						(details <a
+						href="http://thenextweb.com/google/2013/01/25/google-finally-makes-it-easy-to-enable-webgl-support-in-latest-chrome-for-android-beta/">here</a> and <a
+						href="https://discussions.apple.com/thread/3300585?start=0">here</a>).
+						Otherwise you will have to content yourself with this still view of the same object.
+					</p>
+					<p>
+						You can also download the raw model (<a
+						href="examples/P1991_3-3_5_LoRes.zip">low-res mesh</a>, <a
+						href="examples/P1991_3-3_5_HiRes.zip">high-res mesh</a>, <a
+						href="examples/P1991_3-3_5_DPC.ply">dense point cloud</a>) and view it with Meshlab (<a
+						href="http://meshlab.sourceforge.net/">Desktop/Laptop</a>, <a href="https://itunes.apple.com/us/app/meshlab-for-ios/id451944013?mt=8">iOS</a>, <a href="https://play.google.com/store/apps/details?id=it.isticnr.meshlab">Android</a>). This data is licensed for general public use (<a
+						href="http://creativecommons.org/licenses/by/4.0/">CC-BY</a>).
+					</p>
+				</div>
 			</div>
 
 		</div>
-
+		</div>
+		<!-- Dynamically add a border around my3dcontent, so calc() doesn't have to be used -->
+		<script type="text/javascript">
+			if (Detector.webgl) {
+				$('#my3dcontent').css('min-height',window.innerHeight - 6);
+				$('#my3dcontent').css('border','solid 3px');
+				window.addEventListener('resize',function(){
+					$('#my3dcontent').css('min-height',window.innerHeight - 6);
+				},false);
+			} else {
+				$('#my3dcontent').css('min-height',$('#my3dcontent').height() - 6);
+				$('#my3dcontent').css('border','solid 3px');
+				window.addEventListener('resize',function(){
+					$('#my3dcontent').css('min-height',$( window ).height() - 6);
+				},false);
+			}
+		</script>
+		
 		<!-- Conditional Display depending on browser's webgl capabiltites -->
 		<script>
 			$(document).ready(function() {
@@ -112,15 +122,31 @@
 			var windowHalfX = window.innerWidth / 2;
 			var windowHalfY = window.innerHeight / 2;
 
-			init();
-			animate();
+			if (Detector.webgl) {
+				init();
+				animate();
+			}
 
 			/*** Initialize ***/
 			function init() {
 
-				container = document.getElementById("my3dcontent");
+				var wrapper = document.createElement('div');
+				wrapper.style.position =  'absolute';
+				wrapper.style.overflow = 'hidden';
+				wrapper.style.top = 0;
+				wrapper.style.width = window.innerWidth + 'px';
+				wrapper.style.height = window.innerHeight + 'px';
 
-				document.body.appendChild(container);
+				window.addEventListener('resize',function(){
+					wrapper.style.width = window.innerWidth + 'px';
+					wrapper.style.height = window.innerHeight + 'px';
+				},false);
+
+				document.body.appendChild(wrapper);
+				
+				var container = document.createElement('div');
+
+				wrapper.appendChild(container);
 
 				// Adjust cameras distance and set the FOV. Last two values set the clippling plane.
 				camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.01, 10);
@@ -220,6 +246,5 @@
 				render()
 			}
 		</script>
-
 	</body>
 </html>
