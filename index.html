@@ -11,13 +11,27 @@
 		<meta charset="utf-8" />
 		<meta name="viewport" content="initial-scale=1, width=device-width" />
 		<title>MicroPasts 3D Viewer</title>
-		<script src="js/three.min.js"></script>
-		<script src="js/TrackballControls.js"></script>
-		<script src="js/OBJLoader.js"></script>
-		<script src="js/Detector.js"></script>
-		<script src="js/jquery-2.1.0.min.js"></script>
-		<script src="js/jquery-ui.min.js"></script>
-		<script src="js/info.js"></script>
+		<meta name="description" content="A 3D viewer for rendering of models from the MicroPasts project" />
+		<meta name="author" content="The MicroPasts team - Andrew Bevan" />
+		
+		<meta property="og:title" content="MicroPasts 3D Viewer" />
+		<meta property="og:url" content="http://micropasts.org/3D" />
+		<meta property="og:image" content="http://crowdsourced.micropasts.org/static/img/MP_SQUARE_notype.png" />
+		<meta property="og:site_name" content="MicroPasts: 3D viewer" />
+		<meta property="og:type" content="website" />
+		<meta property="og:locale" content="en_GB" />
+		<meta property="og:description" content="Crowd and community fuelled archaeological research" />
+    		<meta property="fb:admins" content="688811070" />
+    		<meta property="fb:app_id" content="1376278705957324" />
+    
+    		<!-- Twitter card tags -->
+    		<meta name="twitter:card" content="summary" />
+    		<meta name="twitter:site" content="@micropasts" />
+    		<meta name="twitter:title" content="MicroPasts 3D viewer" />
+    		<meta name="twitter:description" content="Crowd and community fuelled archaeological research" />
+    		<meta name="twitter:creator" content="@micropasts" />
+    		<meta name="twitter:image:src" content="http://micropasts.org/3D/examples/P1991_3-3_5_snap.png">
+		
 		<!-- v1.10.4 -->
 		<link rel=stylesheet href="css/jquery-ui.css" />
 		<!-- includes info button -->
@@ -85,6 +99,17 @@
 
 		</div>
 		</div>
+		
+		<!-- Moved scripts to render faster -->
+		
+		<script src="js/three.min.js"></script>
+		<script src="js/TrackballControls.js"></script>
+		<script src="js/OBJLoader.js"></script>
+		<script src="js/Detector.js"></script>
+		<script src="js/jquery-2.1.0.min.js"></script>
+		<script src="js/jquery-ui.min.js"></script>
+		<script src="js/info.js"></script>
+		
 		<!-- Dynamically add a border around my3dcontent, so calc() doesn't have to be used -->
 		<script type="text/javascript">
 			if (Detector.webgl) {
@@ -248,23 +273,19 @@
 			}
 		</script>
 
-		<!-- Google Analytics or similar solutions -->
-<<<<<<< HEAD:index.html
- <script type="text/javascript">
-=======
-    <script type="text/javascript">
->>>>>>> 7fad2932990fc38d2c7a7612985fc7dbb3cfcac2:index.html
-  var _gaq = _gaq || [];
-  _gaq.push(['_setAccount', 'UA-298202-17' ]);
-  _gaq.push(['_trackPageview']);
-
-  (function() {
-    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-  })();
-</script>
-    <!-- Google Custom Search -->
+	<!-- Google Analytics or similar solutions -->
+	 <script type="text/javascript">
+	
+	  var _gaq = _gaq || [];
+	  _gaq.push(['_setAccount', 'UA-298202-17' ]);
+	  _gaq.push(['_trackPageview']);
+	
+	  (function() {
+	    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+	    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+	    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+	  })();
+	</script>
 
 	</body>
 </html>
