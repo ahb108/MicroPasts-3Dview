@@ -4,8 +4,8 @@
 	<!-- Created by Andrew Bevan, 21-Apr-2014 -->
 	<!-- micropasts.org -->
 	<!-- Based mainly on three.js and jquery, and
-	with further assistance from Manuel Wieser, 
-	Johannes Raida and Marek Maciusowicz -->
+	with further assistance from Marek Maciusowicz,
+	Daniel Pett, Johannes Raida and Manuel Wieser -->
 
 	<head>
 		<meta charset="utf-8" />
@@ -13,7 +13,7 @@
 		<title>MicroPasts 3D Viewer</title>
 		<meta name="description" content="A 3D viewer for rendering of models from the MicroPasts project" />
 		<meta name="author" content="The MicroPasts team - Andrew Bevan" />
-		
+
 		<meta property="og:title" content="MicroPasts 3D Viewer" />
 		<meta property="og:url" content="http://micropasts.org/3D" />
 		<meta property="og:image" content="http://crowdsourced.micropasts.org/static/img/MP_SQUARE_notype.png" />
@@ -21,29 +21,30 @@
 		<meta property="og:type" content="website" />
 		<meta property="og:locale" content="en_GB" />
 		<meta property="og:description" content="Crowd and community fuelled archaeological research" />
-    		<meta property="fb:admins" content="688811070" />
-    		<meta property="fb:app_id" content="1376278705957324" />
-    
-    		<!-- Twitter card tags -->
-    		<meta name="twitter:card" content="summary" />
-    		<meta name="twitter:site" content="@micropasts" />
-    		<meta name="twitter:title" content="MicroPasts 3D viewer" />
-    		<meta name="twitter:description" content="Crowd and community fuelled archaeological research" />
-    		<meta name="twitter:creator" content="@micropasts" />
-    		<meta name="twitter:image:src" content="http://micropasts.org/3D/examples/P1991_3-3_5_snap.png">
-		
+		<meta property="fb:admins" content="688811070" />
+		<meta property="fb:app_id" content="1376278705957324" />
+
+		<!-- Twitter card tags -->
+		<meta name="twitter:card" content="summary" />
+		<meta name="twitter:site" content="@micropasts" />
+		<meta name="twitter:title" content="MicroPasts 3D viewer" />
+		<meta name="twitter:description" content="Crowd and community fuelled archaeological research" />
+		<meta name="twitter:creator" content="@micropasts" />
+		<meta name="twitter:image:src" content="http://micropasts.org/3D/examples/P1991_3-3_5_snap.png">
+
 		<!-- v1.10.4 -->
 		<link rel=stylesheet href="css/jquery-ui.css" />
 		<!-- includes info button -->
 		<link rel=stylesheet href="css/mpview.css" />
 	</head>
+
 	<body>
 		<!-- Main container -->
 		<div id="my3dcontent">
 			<!-- Object Information Button -->
 			<div id="infoButton"
-				class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only"
-				role="button" aria-disabled="false">
+			class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only"
+			role="button" aria-disabled="false">
 				<span class="ui-button-text"><img alt="" width="32" height="32" src="images/icon-info.png" /></span>
 			</div>
 			<div id="infoBox" title="Object Info">
@@ -56,7 +57,7 @@
 			<div id="mylogo">
 				<img width="100" src="images/mp-webgl.png">
 			</div>
-			
+
 			<!-- Text Overlay -->
 			<div id="myothercontent">
 				<p>
@@ -66,6 +67,15 @@
 					href="examples/P1991_3-3_5_DPC.ply">dense point cloud</a>) and view it with Meshlab (<a
 					href="http://meshlab.sourceforge.net/">Desktop/Laptop</a>, <a href="https://itunes.apple.com/us/app/meshlab-for-ios/id451944013?mt=8">iOS</a>, <a href="https://play.google.com/store/apps/details?id=it.isticnr.meshlab">Android</a>). This data is licensed for general public use (<a
 					href="http://creativecommons.org/licenses/by/4.0/">CC-BY</a>).
+				</p>
+			</div>
+			
+			<!-- Function Key Text Overlay -->
+			<div id="keystrokeoverlay">
+				<p>
+				Keystrokes:<br>
+				a - show/hide Ambient Occlusion (where available)<br>
+				c - re-set view (e.g. after panning)<br>
 				</p>
 			</div>
 
@@ -99,9 +109,8 @@
 
 		</div>
 		</div>
-		
+
 		<!-- Moved scripts to render faster -->
-		
 		<script src="js/three.min.js"></script>
 		<script src="js/TrackballControls.js"></script>
 		<script src="js/OBJLoader.js"></script>
@@ -109,41 +118,44 @@
 		<script src="js/jquery-2.1.0.min.js"></script>
 		<script src="js/jquery-ui.min.js"></script>
 		<script src="js/info.js"></script>
-		
+
 		<!-- Dynamically add a border around my3dcontent, so calc() doesn't have to be used -->
 		<script type="text/javascript">
 			if (Detector.webgl) {
-				$('#my3dcontent').css('min-height',window.innerHeight - 6);
-				$('#my3dcontent').css('border','solid 3px');
-				window.addEventListener('resize',function(){
-					$('#my3dcontent').css('min-height',window.innerHeight - 6);
-				},false);
+				$('#my3dcontent').css('min-height', window.innerHeight - 6);
+				$('#my3dcontent').css('border', 'solid 3px');
+				window.addEventListener('resize', function() {
+					$('#my3dcontent').css('min-height', window.innerHeight - 6);
+				}, false);
 			} else {
-				$('#my3dcontent').css('min-height',$('#my3dcontent').height() - 6);
-				$('#my3dcontent').css('border','solid 3px');
-				window.addEventListener('resize',function(){
-					$('#my3dcontent').css('min-height',$( window ).height() - 6);
-				},false);
+				$('#my3dcontent').css('min-height', $('#my3dcontent').height() - 6);
+				$('#my3dcontent').css('border', 'solid 3px');
+				window.addEventListener('resize', function() {
+					$('#my3dcontent').css('min-height', $(window).height() - 6);
+				}, false);
 			}
 		</script>
-		
-		<!-- Conditional display depending on browser's webgl capabiltites -->
+
+		<!-- Conditional display depending on browser's WebGL capabiltites -->
 		<script>
 			$(document).ready(function() {
 				if (Detector.webgl) {
 					document.getElementById('backupimage').style.display = 'none';
 				} else {
 					document.getElementById('myothercontent').style.display = 'none';
+					document.getElementById('keystrokeoverlay').style.display = 'none';
 				};
 			});
-
 		</script>
-
+		
 		<!-- WebGL Main Script -->
 		<script>
 			var container;
 			var camera, scene, renderer;
 			var mouseX = 0, mouseY = 0;
+			var myTextures = Array();
+			var texturetype = 0;
+			var globalObject;
 
 			var windowHalfX = window.innerWidth / 2;
 			var windowHalfY = window.innerHeight / 2;
@@ -157,19 +169,19 @@
 			function init() {
 
 				var wrapper = document.createElement('div');
-				wrapper.style.position =  'absolute';
+				wrapper.style.position = 'absolute';
 				wrapper.style.overflow = 'hidden';
 				wrapper.style.top = 0;
 				wrapper.style.width = window.innerWidth + 'px';
 				wrapper.style.height = window.innerHeight + 'px';
 
-				window.addEventListener('resize',function(){
+				window.addEventListener('resize', function() {
 					wrapper.style.width = window.innerWidth + 'px';
 					wrapper.style.height = window.innerHeight + 'px';
-				},false);
+				}, false);
 
 				document.body.appendChild(wrapper);
-				
+
 				var container = document.createElement('div');
 
 				wrapper.appendChild(container);
@@ -191,34 +203,41 @@
 				// Add scene
 				scene = new THREE.Scene();
 
-				// White light given texture has shading
+				// White light with no shading effects
 				var ambient = new THREE.AmbientLight(0xffffff);
 				scene.add(ambient);
-
+			
+				/*** Texture Loading ***/
 				if (Detector.webgl) {
-					/*** Texture Loading ***/
 					var manager = new THREE.LoadingManager();
 					manager.onProgress = function(item, loaded, total) {
 						console.log(item, loaded, total);
 					};
-					var texture = new THREE.Texture();
+
 					var loader = new THREE.ImageLoader(manager);
 
-					// Load texture
+					// Load texture(s) into array
+					myTextures[0] = new THREE.Texture();
 					loader.load('examples/P1991_3-3_5_LoRes.jpg', function(image) {
-						texture.image = image;
-						texture.needsUpdate = true;
+						myTextures[0].image = image;
+						myTextures[0].needsUpdate = true;
+					});
+					myTextures[1] = new THREE.Texture();
+					loader.load('examples/P1991_3-3_5_AmbOcc.jpg', function(image) {
+						myTextures[1].image = image;
+						myTextures[1].needsUpdate = true;
 					});
 
-					/*** OBJ Loading ***/
+					// Load mesh and apply texture
 					var loader = new THREE.OBJLoader(manager);
-
-					// Apply texture to mesh
-					loader.load('examples/P1991_3-3_5_LoRes.obj', function(event) {
-						var object = event;
+					loader.load('examples/P1991_3-3_5_LoRes.obj', function(object) {
+						//store global reference to .obj
+        				globalObject = object;
 						object.traverse(function(child) {
 							if ( child instanceof THREE.Mesh) {
-								child.material.map = texture;
+								// child.material.map = texture;
+								child.material.map = myTextures[texturetype];
+								child.material.needsUpdate = true;
 								THREE.GeometryUtils.center(child.geometry);
 							}
 						});
@@ -246,7 +265,36 @@
 				renderer.setSize(window.innerWidth, window.innerHeight);
 				container.appendChild(renderer.domElement);
 				container.addEventListener('resize', onWindowResize, false);
+				document.addEventListener("keydown", onDocumentKeyDown, false);
 			}
+			
+			// Handle keystroke events
+			function onDocumentKeyDown(event){
+				var keyCode = event.which;
+				// Alternate between multiple textures via "a" keystroke
+					if(keyCode == 65){
+						if (texturetype == 0) {
+							texturetype = 1;
+							globalObject.traverse( function ( child ) {
+      							if (child instanceof THREE.Mesh) {
+						        child.material.map = myTextures[texturetype];
+  							    child.material.needsUpdate = true;
+ 							    }
+							});
+						} else {
+							texturetype = 0;
+							globalObject.traverse( function ( child ) {
+      							if (child instanceof THREE.Mesh) {
+						        child.material.map = myTextures[texturetype];
+  							    child.material.needsUpdate = true;
+ 							    }
+							});
+						}
+					// Reset camera position via "c" keystroke
+					} else if(keyCode == 67) {
+						controls.reset();
+					}
+				}
 
 			// Handle window resizing
 			function onWindowResize(event) {
@@ -254,38 +302,38 @@
 				camera.updateProjectionMatrix();
 				renderer.setSize(window.innerWidth, window.innerHeight);
 			}
-
-
 			window.onresize = onWindowResize;
 
 			// Render handler
 			function render() {
-				camera.lookAt(scene.position);
+				// Enable this to disable pan and keep the object always in the centre
+				// camera.lookAt(scene.position);
 				renderer.render(scene, camera);
 			}
 
-			/*** Loop ***/
+			// Loop for new camera on each frame
 			function animate() {
 				requestAnimationFrame(animate);
-				// New camera each frame
 				controls.update();
 				render()
 			}
 		</script>
 
-	<!-- Google Analytics or similar solutions -->
-	 <script type="text/javascript">
-	
-	  var _gaq = _gaq || [];
-	  _gaq.push(['_setAccount', 'UA-298202-17' ]);
-	  _gaq.push(['_trackPageview']);
-	
-	  (function() {
-	    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-	    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-	    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-	  })();
-	</script>
+		<!-- Google Analytics or similar solutions -->
+		<script type="text/javascript">
+			var _gaq = _gaq || [];
+			_gaq.push(['_setAccount', 'UA-298202-17']);
+			_gaq.push(['_trackPageview']);
+
+			(function() {
+				var ga = document.createElement('script');
+				ga.type = 'text/javascript';
+				ga.async = true;
+				ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+				var s = document.getElementsByTagName('script')[0];
+				s.parentNode.insertBefore(ga, s);
+			})();
+		</script>
 
 	</body>
 </html>
