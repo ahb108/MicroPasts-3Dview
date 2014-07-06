@@ -51,6 +51,7 @@ html {
 	color: white;
 	margin: 10% 10% 100px;
 	z-index: 50;
+	display: none;
 }
 #backupimage a:link { color: #C0C0C0; }
 #backupimage a:visited { color: #C0C0C0; }
