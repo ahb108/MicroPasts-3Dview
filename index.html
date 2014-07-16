@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html>
 
-	<!-- Created by Andrew Bevan, 21-Apr-2014 -->
+	<!-- First created by Andrew Bevan, 21-Apr-2014 -->
 	<!-- micropasts.org -->
 	<!-- Based mainly on three.js and jquery, and
 	with further assistance from Marek Maciusowicz,
-	Daniel Pett, Johannes Raida and Manuel Wieser -->
+	Daniel Pett, Johannes Raida, Markus Schütz and Manuel Wieser -->
 
 	<head>
 		<meta charset="utf-8" />
@@ -32,92 +32,92 @@
 		<meta name="twitter:creator" content="@micropasts" />
 		<meta name="twitter:image:src" content="http://micropasts.org/3D/examples/P1991_3-3_5_snap.png">
 
-		<!-- v1.10.4 -->
-		<link rel=stylesheet href="css/jquery-ui.css" />
-		<!-- includes info button -->
+		<!-- Main Styles -->
 		<link rel=stylesheet href="css/mpview.css" />
+		<!-- jQuery UI style v1.10.4 -->
+		<link rel=stylesheet href="css/jquery-ui.css" />
+
 	</head>
 
 	<body>
+
 		<!-- Main container -->
 		<div id="my3dcontent">
-			<!-- Object Information Button -->
-			<div id="infoButton"
-			class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only"
-			role="button" aria-disabled="false">
-				<span class="ui-button-text"><img alt="" width="32" height="32" src="images/icon-info.png" /></span>
+
+			<!-- Three Line Menu -->
+			<div id="toolbox-launcher">
+				<a href="#"><img src="images/threeline.svg" alt="Menu"></a>
 			</div>
-			<div id="infoBox" title="Object Info">
-				<p>
-					This object is a Bronze Age 'palstave' (a kind of axe) and was found near Jevington, East Sussex. It is now part of the British Museum's collections (BM P1991.3-3.5).
-				</p>
+
+			<div id="toolbox">
+				<ul class="nav">
+					<li class="info">
+						<a href='#' onclick='infooverlay()'>Model Information</a>
+					</li>
+					<li class="measure">
+						<a href='#' onclick='measuring()'>Measurement</a>
+					</li>
+					<li class="skin">
+						<a href='#' onclick='skinswitch()'>Switch Skin</a>
+					</li>
+					<li class="reset">
+						<a href='#' onclick='viewreset()'>Reset View</a>
+					</li>
+					<li class="home">
+						<a href="http://www.micropasts.org/data-centre/">Data Centre</a>
+					</li>
+					<li class="help">
+						<a href='#' onclick='helpoverlay()'>Help</a>
+					</li>
+				</ul>
+			</div>
+
+			<!-- Measurement Buttons and Distance Label -->
+			<div id="mbuttonF">
+				<input type="button" onclick="placeStart()", class="mbuttonF">
+			</div>
+			<div id="mbuttonT">
+				<input type="button" onclick="placeEnd()", class="mbuttonT">
+			</div>
+			<div id="lblDistance">
+				abc
 			</div>
 
 			<!-- Logo Overlay -->
 			<div id="mylogo">
-				<img width="100" src="images/mp-webgl.png">
+				<a href="http://micropasts.org"><img width="100" src="images/mp-webgl.png"></a>
 			</div>
 
-			<!-- Text Overlay -->
-			<div id="myothercontent">
-				<p>
-					In addition to using this viewer, you can also download the raw model (<a
-					href="examples/P1991_3-3_5_LoRes.zip">low-res mesh</a>, <a
-					href="examples/P1991_3-3_5_HiRes.zip">high-res mesh</a>, <a
-					href="examples/P1991_3-3_5_DPC.ply">dense point cloud</a>) and view it with Meshlab (<a
-					href="http://meshlab.sourceforge.net/">Desktop/Laptop</a>, <a href="https://itunes.apple.com/us/app/meshlab-for-ios/id451944013?mt=8">iOS</a>, <a href="https://play.google.com/store/apps/details?id=it.isticnr.meshlab">Android</a>). This data is licensed for general public use (<a
-					href="http://creativecommons.org/licenses/by/4.0/">CC-BY</a>).
-				</p>
-			</div>
-			
-			<!-- Function Key Text Overlay -->
-			<div id="keystrokeoverlay">
-				<p>
-				Keystrokes:<br>
-				a - show/hide Ambient Occlusion (where available)<br>
-				c - re-set view (e.g. after panning)<br>
-				</p>
-			</div>
-
-			<!-- Replacement Image -->
-			<div id="backupimage">
-				<div id="backupimage-img-wrapper">
-					<img id="backupimage-img" alt="" src="examples/P1991_3-3_5_snap.png" />
-				</div>
-				<div id="backupimage-text-wrapper">
+			<!-- Replacement Page -->
+			<div id="backup">
+				<div id="backup-text-wrapper">
 					<p>
 						Sorry, it looks as if your device does not currently support a WebGL viewer.
-					</p>
-					<p>
-						Unfortunately, mobile iOS devices do not, nor will older versions of browsers (so consider updating).
-						For Android mobile devices using Chrome or desktop/laptop computers using Safari, you may be able to enable this via your browser settings
-						(details <a
-						href="http://thenextweb.com/google/2013/01/25/google-finally-makes-it-easy-to-enable-webgl-support-in-latest-chrome-for-android-beta/">here</a> and <a
-						href="https://discussions.apple.com/thread/3300585?start=0">here</a>).
-						Otherwise you will have to content yourself with this still view of the same object.
-					</p>
-					<p>
-						You can also download the raw model (<a
-						href="examples/P1991_3-3_5_LoRes.zip">low-res mesh</a>, <a
-						href="examples/P1991_3-3_5_HiRes.zip">high-res mesh</a>, <a
-						href="examples/P1991_3-3_5_DPC.ply">dense point cloud</a>) and view it with Meshlab (<a
-						href="http://meshlab.sourceforge.net/">Desktop/Laptop</a>, <a href="https://itunes.apple.com/us/app/meshlab-for-ios/id451944013?mt=8">iOS</a>, <a href="https://play.google.com/store/apps/details?id=it.isticnr.meshlab">Android</a>). This data is licensed for general public use (<a
-						href="http://creativecommons.org/licenses/by/4.0/">CC-BY</a>).
+						Please consider updating your browser and/or checking your WebGL settings.
 					</p>
 				</div>
 			</div>
 
 		</div>
-		</div>
 
-		<!-- Moved scripts to render faster -->
+		<!-- Moved scripts here to render faster -->
 		<script src="js/three.min.js"></script>
 		<script src="js/TrackballControls.js"></script>
 		<script src="js/OBJLoader.js"></script>
 		<script src="js/Detector.js"></script>
 		<script src="js/jquery-2.1.0.min.js"></script>
-		<script src="js/jquery-ui.min.js"></script>
-		<script src="js/info.js"></script>
+		<script src="js/Markdown.Converter.js"></script>
+
+		<!-- Conditional behaviour of menu-->
+		<script>
+			$('#toolbox-launcher').on('click', function(e) {
+				if ($('#toolbox').css('display') == 'none') {
+					$('#toolbox').fadeIn();
+				} else {
+					$('#toolbox').fadeOut();
+				}
+			});
+		</script>
 
 		<!-- Dynamically add a border around my3dcontent, so calc() doesn't have to be used -->
 		<script type="text/javascript">
@@ -140,15 +140,33 @@
 		<script>
 			$(document).ready(function() {
 				if (Detector.webgl) {
-					document.getElementById('backupimage').style.display = 'none';
+					document.getElementById('backup').style.display = 'none';
 				} else {
-					document.getElementById('myothercontent').style.display = 'none';
-					document.getElementById('keystrokeoverlay').style.display = 'none';
-					$('#backupimage').css('display','block');
+					$('#backup').css('display', 'block');
 				};
 			});
 		</script>
-		
+
+		<!-- Measure button appearance on-click -->
+		<script>
+			$('.mbuttonF').on('click', function(e) {
+				e.stopPropagation();
+				$('.mbuttonT').css('border', 'solid 1px transparent');
+				$(this).css('border', 'solid 1px white');
+			});
+
+			$('.mbuttonT').on('click', function(e) {
+				e.stopPropagation();
+				$('.mbuttonF').css('border', 'solid 1px transparent');
+				$(this).css('border', 'solid 1px white');
+			});
+
+			$(document).on('click', function(e) {
+				$('.mbuttonF').css('border', 'solid 1px transparent');
+				$('.mbuttonT').css('border', 'solid 1px transparent');
+			});
+		</script>
+
 		<!-- WebGL Main Script -->
 		<script>
 			var container;
@@ -157,6 +175,15 @@
 			var myTextures = Array();
 			var texturetype = 0;
 			var globalObject;
+			var t1exists
+			var mouse = {
+				x : 0.1,
+				y : 0.1
+			};
+			var projector, raycaster;
+			var spStart, spEnd, sConnection;
+			var placeStartMode = false;
+			var placeEndMode = false;
 
 			var windowHalfX = window.innerWidth / 2;
 			var windowHalfY = window.innerHeight / 2;
@@ -191,6 +218,9 @@
 				camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.01, 10);
 				camera.position.z = 0.4;
 
+				projector = new THREE.Projector();
+				raycaster = new THREE.Raycaster();
+
 				// Set camera behaviour and sensitivity
 				controls = new THREE.TrackballControls(camera);
 				controls.rotateSpeed = 4;
@@ -207,7 +237,7 @@
 				// White light with no shading effects
 				var ambient = new THREE.AmbientLight(0xffffff);
 				scene.add(ambient);
-			
+
 				/*** Texture Loading ***/
 				if (Detector.webgl) {
 					var manager = new THREE.LoadingManager();
@@ -217,26 +247,67 @@
 
 					var loader = new THREE.ImageLoader(manager);
 
+					// Get and set model texture(s) and info from same directory as obj
+					$.urlParam = function(name) {
+						var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
+						if (results == null) {
+							return null;
+						} else {
+							return results[1] || 0;
+						}
+					}
+					var modelurl = decodeURIComponent($.urlParam('mesh'));
+					if (modelurl == 'null') {
+						var modelurl = 'examples/P1991_3-3_5_LoRes.obj'
+						var t0 = 'examples/P1991_3-3_5_LoRes.jpg'
+						var t1 = 'examples/Texture1.jpg'
+						var mdf = 'examples/readme.md'
+					} else {
+						var urlbits = modelurl.split("/");
+						var modelname = urlbits[urlbits.length - 1];
+						var modurl = modelurl.substring(0, modelurl.length - 4)
+						var mydir = modelurl.substring(0, modelurl.length - modelname.length);
+						var t0 = modurl.concat('.jpg')
+						var t1 = mydir.concat('Texture1.jpg')
+						var mdf = mydir.concat('readme.md')
+					}
+
+					// Check for extra texture file
+					var xhr = new XMLHttpRequest();
+					xhr.open('HEAD', t1, false);
+					xhr.send();
+					t1exists = xhr.status != 404;
+
+					//  Markdown converter
+					jQuery(document).ready(function jQueryReady($) {
+						var converter = new Markdown.Converter(), markdownToHtml = converter.makeHtml;
+						$.get(mdf).success(function(data) {
+							$("#readme").html(markdownToHtml(data));
+						});
+					});
+
 					// Load texture(s) into array
 					myTextures[0] = new THREE.Texture();
-					loader.load('examples/P1991_3-3_5_LoRes.jpg', function(image) {
+					loader.load(t0, function(image) {
 						myTextures[0].image = image;
 						myTextures[0].needsUpdate = true;
 					});
-					myTextures[1] = new THREE.Texture();
-					loader.load('examples/P1991_3-3_5_AmbOcc.jpg', function(image) {
-						myTextures[1].image = image;
-						myTextures[1].needsUpdate = true;
-					});
+
+					if (t1exists) {
+						myTextures[1] = new THREE.Texture();
+						loader.load(t1, function(image) {
+							myTextures[1].image = image;
+							myTextures[1].needsUpdate = true;
+						});
+					}
 
 					// Load mesh and apply texture
 					var loader = new THREE.OBJLoader(manager);
-					loader.load('examples/P1991_3-3_5_LoRes.obj', function(object) {
+					loader.load(modelurl, function(mymodel) {
 						//store global reference to .obj
-        				globalObject = object;
-						object.traverse(function(child) {
+						globalObject = mymodel;
+						mymodel.traverse(function(child) {
 							if ( child instanceof THREE.Mesh) {
-								// child.material.map = texture;
 								child.material.map = myTextures[texturetype];
 								child.material.needsUpdate = true;
 								THREE.GeometryUtils.center(child.geometry);
@@ -244,13 +315,37 @@
 						});
 
 						// Rescale if necessary
-						object.scale = new THREE.Vector3(1, 1, 1);
+						mymodel.scale = new THREE.Vector3(1, 1, 1);
 
 						// Re-position if necessary
-						object.position.y += 0.0;
-						scene.add(object);
+						mymodel.position.y += 0.0;
+						scene.add(mymodel);
 					});
 				}
+
+				// Measurement (prepared here but to be added via menu)
+				var sphereGeometry = new THREE.SphereGeometry(0.001, 32, 32);
+				var sphereMaterialS = new THREE.MeshBasicMaterial({
+					color : 0xc2852b,
+					shading : THREE.FlatShading
+				});
+				var sphereMaterialE = new THREE.MeshBasicMaterial({
+					color : 0xf0e8dd,
+					shading : THREE.FlatShading
+				});
+				spStart = new THREE.Mesh(sphereGeometry, sphereMaterialS);
+				spEnd = new THREE.Mesh(sphereGeometry, sphereMaterialE);
+				spStart.position.set(-0.1, 0, 0);
+				spEnd.position.set(0.13, 0, 0);
+
+				var lc = new THREE.Color(0xf0e8dd);
+				var lineGeometry = new THREE.Geometry();
+				lineGeometry.vertices.push(spStart.position.clone(), spEnd.position.clone());
+				lineGeometry.colors.push(lc, lc, lc);
+				var lineMaterial = new THREE.LineBasicMaterial({
+					vertexColors : THREE.VertexColors
+				});
+				sConnection = new THREE.Line(lineGeometry, lineMaterial);
 
 				// Check for WebGL (enable slower canvas render otherwise)
 				if (Detector.webgl) {
@@ -267,35 +362,83 @@
 				container.appendChild(renderer.domElement);
 				container.addEventListener('resize', onWindowResize, false);
 				document.addEventListener("keydown", onDocumentKeyDown, false);
+				document.addEventListener('mousemove', onDocumentMouseMove, false);
+				document.addEventListener('touchmove', onDocumentTouchMove, false);
+				renderer.domElement.addEventListener('click', onClick, false);
 			}
-			
-			// Handle keystroke events
-			function onDocumentKeyDown(event){
+
+			// Handle keystroke events and related menu functions
+			function onDocumentKeyDown(event) {
 				var keyCode = event.which;
-				// Alternate between multiple textures via "a" keystroke
-					if(keyCode == 65){
-						if (texturetype == 0) {
-							texturetype = 1;
-							globalObject.traverse( function ( child ) {
-      							if (child instanceof THREE.Mesh) {
-						        child.material.map = myTextures[texturetype];
-  							    child.material.needsUpdate = true;
- 							    }
-							});
-						} else {
-							texturetype = 0;
-							globalObject.traverse( function ( child ) {
-      							if (child instanceof THREE.Mesh) {
-						        child.material.map = myTextures[texturetype];
-  							    child.material.needsUpdate = true;
- 							    }
-							});
-						}
-					// Reset camera position via "c" keystroke
-					} else if(keyCode == 67) {
-						controls.reset();
+				// Alternate between multiple textures via "s" keystroke
+				if (keyCode == 83) {
+					if (texturetype == 0 & t1exists) {
+						texturetype = 1;
+						globalObject.traverse(function(child) {
+							if ( child instanceof THREE.Mesh) {
+								child.material.map = myTextures[texturetype];
+								child.material.needsUpdate = true;
+							}
+						});
+					} else {
+						texturetype = 0;
+						globalObject.traverse(function(child) {
+							if ( child instanceof THREE.Mesh) {
+								child.material.map = myTextures[texturetype];
+								child.material.needsUpdate = true;
+							}
+						});
 					}
+					// Reset camera position via "r" keystroke
+				} else if (keyCode == 82) {
+					controls.reset();
 				}
+			}
+
+			// Alternate between multiple textures via menu
+			function skinswitch() {
+				if (texturetype == 0 & t1exists) {
+					texturetype = 1;
+					globalObject.traverse(function(child) {
+						if ( child instanceof THREE.Mesh) {
+							child.material.map = myTextures[texturetype];
+							child.material.needsUpdate = true;
+						}
+					});
+				} else {
+					texturetype = 0;
+					globalObject.traverse(function(child) {
+						if ( child instanceof THREE.Mesh) {
+							child.material.map = myTextures[texturetype];
+							child.material.needsUpdate = true;
+						}
+					});
+				}
+			}
+
+			// Re-set view
+			function viewreset() {
+				controls.reset();
+			}
+
+			// Enable measuring
+			function measuring() {
+				if ($('#lblDistance').css('display') == 'none') {
+					$('#lblDistance').fadeIn();
+					$('.mbuttonF').fadeIn();
+					$('.mbuttonT').fadeIn();
+					scene.add(spStart);
+					scene.add(spEnd);
+					scene.add(sConnection);
+				} else {
+					$('#lblDistance').fadeOut();
+					$('.mbuttonF').fadeOut();
+					$('.mbuttonT').fadeOut();
+					scene.remove(spStart);
+					scene.remove(spEnd);
+					scene.remove(sConnection);
+				}
+			}
 
 			// Handle window resizing
 			function onWindowResize(event) {
@@ -303,12 +446,53 @@
 				camera.updateProjectionMatrix();
 				renderer.setSize(window.innerWidth, window.innerHeight);
 			}
+
 			window.onresize = onWindowResize;
 
+			// Moving mouse for distance measurement
+			function onDocumentMouseMove(event) {
+				event.preventDefault();
+				mouse.x = (event.clientX / window.innerWidth ) * 2 - 1;
+				mouse.y = -(event.clientY / window.innerHeight ) * 2 + 1;
+			}
+			
+			function onDocumentTouchMove(event) {
+				event.preventDefault();
+				mouse.x = (event.touches[0].pageX / window.innerWidth ) * 2 - 1;
+				mouse.y = -(event.touches[0].pageY / window.innerHeight ) * 2 + 1;
+			}
+			
 			// Render handler
 			function render() {
-				// Enable this to disable pan and keep the object always in the centre
-				// camera.lookAt(scene.position);
+				camera.updateMatrixWorld(true);
+
+				vector = new THREE.Vector3(mouse.x, mouse.y, 0.5);
+				projector.unprojectVector(vector, camera);
+				raycaster.ray.set(camera.position, vector.sub(camera.position).normalize());
+
+				if (placeStartMode || placeEndMode) {
+					var intersects = raycaster.intersectObject(globalObject, true);
+
+					if (intersects.length > 0) {
+						var I = intersects[0];
+
+						if (placeStartMode) {
+							spStart.position = I.point;
+						} else if (placeEndMode) {
+							spEnd.position = I.point;
+						}
+						sConnection.geometry.vertices[0].copy(spStart.position);
+						sConnection.geometry.vertices[1].copy(spEnd.position);
+						sConnection.geometry.verticesNeedUpdate = true;
+						sConnection.geometry.computeBoundingSphere();
+					}
+				}
+
+				// Calculation for distance label
+				var distance = spStart.position.distanceTo(spEnd.position);
+				var lblDistance = document.getElementById("lblDistance");
+				lblDistance.innerHTML = "Length: " + distance.toFixed(4) + " m";
+
 				renderer.render(scene, camera);
 			}
 
@@ -317,6 +501,21 @@
 				requestAnimationFrame(animate);
 				controls.update();
 				render()
+			}
+
+			function placeStart() {
+				placeStartMode = true;
+				placeEndMode = false;
+			}
+
+			function placeEnd() {
+				placeStartMode = false;
+				placeEndMode = true;
+			}
+
+			function onClick() {
+				placeStartMode = false;
+				placeEndMode = false;
 			}
 		</script>
 
@@ -335,6 +534,68 @@
 				s.parentNode.insertBefore(ga, s);
 			})();
 		</script>
+
+		<!-- Info and Help and Overlays -->
+		<script>
+			function infooverlay() {
+				el = document.getElementById("infooverlay");
+				el.style.visibility = (el.style.visibility == "visible") ? "hidden" : "visible";
+			}
+
+			function helpoverlay() {
+				el = document.getElementById("helpoverlay");
+				el.style.visibility = (el.style.visibility == "visible") ? "hidden" : "visible";
+			}
+		</script>
+
+		<div id="infooverlay">
+			<div id="infooverlay-box">
+				<a href='#' class='icon-cancel' onclick='infooverlay()'></a>
+				<div id="readme"></div>
+			</div>
+		</div>
+
+		<div id="helpoverlay">
+			
+			<div id="helpoverlay-box">
+				<a href='#' class='icon-cancel' onclick='helpoverlay()'></a>
+				
+				<h3>3D Viewer Help</h3>
+				<p>
+					The is a 3D viewer designed by MicroPasts for viewing its models. You can use mouse or touchpad
+					controls to zoom in and out, pan or rotate the model.
+					There is a three-bar menu icon top-left which gives access to further options.
+				</p>
+
+				<ul>
+					<li>
+						Model Information -- Provides a brief summary of what we know about this model (where avaialble).
+					</li>
+
+					<li>
+						Measurement -- a distance mneauring tool. Click on the brown button to move the brown landmark,
+						and then click on the white button to move the white landmark. The measured distance will be shown top-right.
+					</li>
+
+					<li>
+						Switch Skin -- Allows you to cycle through different mesh textures (if more than one is avaialble).
+					</li>
+
+					<li>
+						Reset View -- Re-centres the model in the viewer at default zoom and position.
+					</li>
+
+					<li>
+						Data Centre -- Access to our Data Centre page where there are further 3D models and direct downloads available.
+					</li>
+
+					<li>
+						Help -- Some basic help. For any further queries, please post on our <a href="http://community.micropasts.org/">forum</a>
+						or consult the source code for this viewer on our <a href="https://github.com/MicroPasts/MicroPasts-3Dview">GitHub repsoitory</a>.
+					</li>
+				</ul>
+			</div>
+		</div>
 
 	</body>
 </html>

@@ -1,14 +1,13 @@
 MicroPasts-3Dview
 =================
 
-This is a WebGL viewer created by Andrew
+This is an implementation of a WebGL viewer project, created by Andrew
 Bevan for the MicroPasts project
 (funded by the UK Arts and Humanities Research Council)
 
 ## Acknowledgments
 This viewer makes use the excellent three.js, along with jquery. Many
-thanks to Marek Maciusowicz, Daniel Pett, Johannes Raida and Manuel
-Wieser for their assistance. 
+thanks to Marek Maciusowicz, Daniel Pett, Johannes Raida, Markus Schütz and Manuel Wieser for their assistance. 
 
 ## Copyright / License
 

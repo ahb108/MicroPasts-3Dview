@@ -1,50 +1,60 @@
-
-
 /* Very basic css for page. */
 
 body {
 	height: 100%;
 	margin: 0px;
 	background-color: "#8080ff";
+	padding: 0px;
 }
 
 html {
 	height: 100%;
 }
 
+#lblDistance {
+	position: absolute;
+	right: 10px;
+	top: 20px;
+	z-index: 100;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: small;
+	color: white;
+	display: none;
+}
+
+#mbuttonF .mbuttonF {
+	position: absolute;
+	background: url('../images/mfr.svg');
+	bottom: 10px;
+	right: 60px;
+	border: solid 1px transparent;
+	height: 32px;
+	width: 32px;
+	z-index: 100;
+	display: none;
+}
+
+#mbuttonT .mbuttonT {
+	position: absolute;
+	background: url('../images/mto.svg');
+	bottom: 10px;
+	right: 10px;
+	border: solid 1px transparent;
+	height: 32px;
+	width: 32px;
+	z-index: 100;
+	display: none;
+}
+
 #mylogo {
-	position: absolute; 
+	position: absolute;
 	bottom: 10px;
 	left: 10px;
 	z-index: 2;
-	border-width: 0px; 
+	border-width: 0px;
 }
 
-#myothercontent {
-	font-family: Arial, Helvetica, sans-serif;
-	position: absolute; top: 10px; right: 8px; z-index: 100;
-	border-width: thin; 
-	border-style: solid;
-	border-color: white;
-	font-size: small;
-	color: white;
-	padding:5px 10px; 
-	width:200px; 
-	border-radius:10px;
-}
-#myothercontent a:link { color: #C0C0C0; }
-#myothercontent a:visited { color: #C0C0C0; }
-
-#keystrokeoverlay {
-	font-family: Arial, Helvetica, sans-serif;
-	position: absolute; bottom: 5px; right: 8px; z-index: 100;
-	font-size: small;
-	color: black;
-	padding:5px 10px; 
-	width:200px; 
-}
-
-#backupimage {
+#backup {
 	width: 80%;
 	position: relative;
 	font-family: Arial, Helvetica, sans-serif;
@@ -53,34 +63,13 @@ html {
 	z-index: 50;
 	display: none;
 }
-#backupimage a:link { color: #C0C0C0; }
-#backupimage a:visited { color: #C0C0C0; }
 
-#backupimage-img {
-	width: 100%;
-	max-width: 300px;
-}
-
-#backupimage-img-wrapper {
-	text-align: center;
-	margin-bottom: 50px;
-}
-
-#backupimage-text-wrapper {
+#backup-text-wrapper {
 	width: 100%;
 	max-width: 860px;
 	position: relative;
 	margin: auto;
 	text-align: justify;
-}
-
-#infoButton {
-	z-index: 2;
-	background-color: rgb(0, 0, 0);
-	background-color: rgba(0, 0, 0, 0);
-	opacity: 0.9;
-	margin-top: 6px;
-	margin-left: 4px;
 }
 
 #my3dcontent {
@@ -93,45 +82,152 @@ html {
 	background: linear-gradient(#000000, #8080ff); /* Standard syntax */
 }
 
-/* Customized CSS for jQuery UI: simple info button and box. */
-
-.ui-widget-content 
-{
-    font-size:12px;
-    font-family: georgia;
+/* Menu Style */
+#toolbox-launcher {
+	position: absolute;
+	z-index: 2;
+	margin-top: 10px;
+	margin-left: 10px;
 }
 
-/* trim space around info button */
-#infoBox .ui-button-text-only .ui-button-text 
-{  padding: 0px;  }
-#infoBox .ui-state-default, #infoBox .ui-widget-content #infoBox .ui-state-default, #infoBox .ui-widget-header .ui-state-default 
-{  border: 0px solid #000000;  }
-
-/* changing dialog close button */
-.ui-dialog-titlebar-close
-{
-	outline-width: 0px !important;
-	background-color: transparent !important;
-    background-image: url('../images/icon-close-16.png') !important;
-	background-repeat:no-repeat !important;
+#toolbox {
+	display: none;
+	position: absolute;
+	z-index: 100;
+	margin-top: 60px;
+	margin-left: 10px;
+	font-family: Arial, Helvetica, sans-serif;
+	border-width: thin;
+	border-style: solid;
+	border-color: white;
+	font-size: small;
+	color: white;
+	padding: 5px 1px;
+	width: 180px;
+	border-radius: 10px;
+	text-align: left;
+}
+#toolbox a:link {
+	color: white;
+	text-decoration: none;
+}
+#toolbox a:visited {
+	color: white;
+	text-decoration: none;
 }
 
-/* changing dialog close button */
-.ui-dialog-titlebar-close:hover,
-.ui-dialog-titlebar-close:focus 
-{
-    background-color: transparent !important;
-    background-image: url('../images/icon-close-16.png') !important;
-	background-repeat:no-repeat !important;
+/* Webfonts courtesy of Fontello and Font Awesome */
+@font-face {
+	font-family: 'wbicons';
+	src: url("icons/wbicons.eot");
+	src: url("icons/wbicons.eot#iefix") format('embedded-opentype'), url("icons/wbicons.woff") format('woff'), url("icons/wbicons.ttf") format('truetype'), url("icons/wbicons.svg#bullets") format('svg');
+	font-weight: normal;
+	font-style: normal;
 }
 
-/* hide the default "x" close image */
-.ui-dialog-titlebar-close span 
-{  display:none !important;  }
-
-/* translucent background */
-.ui-dialog 
-{  
-	opacity: .90;  
-	width:200px !important;
+ul.nav {
+	list-style-type: none;
 }
+
+ul.nav li {
+	text-indent: -1.4em;
+	margin: 0.5em 0.5em;
+	line-height: 1.5em;
+}
+
+ul.nav li:before {
+	font-family: wbicons;
+	content: "\e800";
+	float: left;
+	width: 1.4em;
+	color: white;
+}
+
+ul.nav li.info:before {
+	content: "\e800";
+}
+ul.nav li.home:before {
+	content: "\e804";
+}
+ul.nav li.measure:before {
+	content: "\e806";
+}
+ul.nav li.skin:before {
+	content: "\e803";
+}
+ul.nav li.reset:before {
+	content: "\e807";
+}
+ul.nav li.help:before {
+	content: "\e801";
+}
+
+/* Overlays */
+#infooverlay {
+	visibility: hidden;
+	position: absolute;
+	left: 0px;
+	top: 0px;
+	width: 100%;
+	height: 100%;
+	text-align: center;
+	z-index: 1000;
+}
+
+#infooverlay-box {
+	height: 400px;
+	width: 300px;
+	margin: 100px auto;
+	background-color: white;
+	border: 1px solid white;
+	padding: 15px;
+	text-align: center;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: small;
+	border-radius: 10px;
+	opacity: 0.9;
+	overflow: auto;
+}
+
+#helpoverlay {
+	visibility: hidden;
+	position: absolute;
+	left: 0px;
+	top: 0px;
+	width: 100%;
+	height: 100%;
+	text-align: center;
+	z-index: 1000;
+}
+
+#helpoverlay-box {
+	height: 400px;
+	width: 300px;
+	margin: 100px auto;
+	background-color: white;
+	border: 1px solid white;
+	padding: 15px;
+	text-align: justify;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: small;
+	border-radius: 10px;
+	opacity: 0.9;
+	overflow: auto;
+}
+
+[class^="icon-"]:before,
+[class*=" icon-"]:before {
+	font-family: wbicons;
+	font-style: normal;
+	font-weight: normal;
+	speak: none;
+	display: inline-block;
+	width: 2em;
+	opacity: 0.8;
+	color: black;
+	float: right;
+	text-decoration: none;
+}
+.icon-cancel:before { content: '\e802'; }
+
+
