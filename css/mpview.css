@@ -1,4 +1,4 @@
-/* Very basic css for page. */
+/* Main CSS */
 
 body {
 	height: 100%;
@@ -230,4 +230,22 @@ ul.nav li.help:before {
 }
 .icon-cancel:before { content: '\e802'; }
 
-
+/* Fix for touch and trackpad scroll */
+.box::-webkit-scrollbar {
+    -webkit-appearance: none;
+}
+.box::-webkit-scrollbar:vertical {
+    width: 11px;
+}
+.box::-webkit-scrollbar:horizontal {
+    height: 11px;
+}
+.box::-webkit-scrollbar-thumb {
+    border-radius: 8px;
+    border: 2px solid white; /* should match background, can't be transparent */
+    background-color: rgba(0, 0, 0, .5);
+}
+.box::-webkit-scrollbar-track { 
+    background-color: #fff; 
+    border-radius: 8px; 
+} 
