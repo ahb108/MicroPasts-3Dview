@@ -299,12 +299,14 @@
 							myTextures[1].image = image;
 							myTextures[1].needsUpdate = true;
 						});
+						// ele = document.getElementById("skin1");
+						// ele.style.color = (ele.style.color == "white") ? "silver" : "white";
 					}
 
 					// Load mesh and apply texture
 					var loader = new THREE.OBJLoader(manager);
 					loader.load(modelurl, function(mymodel) {
-						//store global reference to .obj
+						// Store global reference to .obj
 						globalObject = mymodel;
 						mymodel.traverse(function(child) {
 							if ( child instanceof THREE.Mesh) {
@@ -446,7 +448,6 @@
 				camera.updateProjectionMatrix();
 				renderer.setSize(window.innerWidth, window.innerHeight);
 			}
-
 			window.onresize = onWindowResize;
 
 			// Moving mouse for distance measurement
@@ -455,13 +456,13 @@
 				mouse.x = (event.clientX / window.innerWidth ) * 2 - 1;
 				mouse.y = -(event.clientY / window.innerHeight ) * 2 + 1;
 			}
-			
+
 			function onDocumentTouchMove(event) {
 				event.preventDefault();
 				mouse.x = (event.touches[0].pageX / window.innerWidth ) * 2 - 1;
 				mouse.y = -(event.touches[0].pageY / window.innerHeight ) * 2 + 1;
 			}
-			
+
 			// Render handler
 			function render() {
 				camera.updateMatrixWorld(true);
@@ -549,17 +550,17 @@
 		</script>
 
 		<div id="infooverlay">
-			<div id="infooverlay-box">
+			<div id="infooverlay-box" class="box">
 				<a href='#' class='icon-cancel' onclick='infooverlay()'></a>
 				<div id="readme"></div>
 			</div>
 		</div>
 
 		<div id="helpoverlay">
-			
-			<div id="helpoverlay-box">
+
+			<div id="helpoverlay-box" class="box">
 				<a href='#' class='icon-cancel' onclick='helpoverlay()'></a>
-				
+
 				<h3>3D Viewer Help</h3>
 				<p>
 					The is a 3D viewer designed by MicroPasts for viewing its models. You can use mouse or touchpad
@@ -578,7 +579,7 @@
 					</li>
 
 					<li>
-						Switch Skin -- Allows you to cycle through different mesh textures (if more than one is avaialble).
+						Switch Skin -- Allows you to cycle through different mesh textures (if more than one is available).
 					</li>
 
 					<li>
